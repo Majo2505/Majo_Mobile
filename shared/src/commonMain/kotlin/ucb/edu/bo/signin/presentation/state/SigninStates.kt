@@ -1,8 +1,8 @@
 ﻿package ucb.edu.bo.signin.presentation.state
 
-data class SigninStates(
-    val userName: String = "",
+data class SigninState(
+    val email: String = "",
     val password: String = "",
     val isLoading: Boolean = false,
-    val isPasswordVisible: Boolean = false
+    val error: String? = null
 )

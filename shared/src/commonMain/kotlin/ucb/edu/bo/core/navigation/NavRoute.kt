@@ -8,6 +8,9 @@ sealed class NavRoute {
     data object Login : NavRoute()
 
     @Serializable
+    data object SignUp : NavRoute()
+
+    @Serializable
     data object Movies : NavRoute()
 
     @Serializable
