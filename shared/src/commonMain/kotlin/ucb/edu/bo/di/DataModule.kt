@@ -1,5 +1,7 @@
 ﻿import org.koin.dsl.module
+import ucb.edu.bo.signin.data.repository.SigninRepositoryImpl
+import ucb.edu.bo.signin.domain.repository.SigninRepository
 
 val dataModule = module {
-    // Aquí registrarás tus Repositorios y fuentes de datos
+    single<SigninRepository> { SigninRepositoryImpl() }
 }
