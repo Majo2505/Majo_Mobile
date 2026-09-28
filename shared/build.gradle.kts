@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
 
 }
 detekt {
@@ -67,6 +68,10 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.compose.uiTooling)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -81,8 +86,12 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.navigation.compose)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
             implementation(libs.kotlinx.serialization.json)
             implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
+            implementation(libs.ktor.client.okhttp)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

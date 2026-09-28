@@ -11,7 +11,13 @@ sealed class NavRoute {
     data object SignUp : NavRoute()
 
     @Serializable
+    data object UserInfo : NavRoute()
+
+    @Serializable
     data object Movies : NavRoute()
+
+    @Serializable
+    data object Catalog : NavRoute()
 
     @Serializable
     data class MovieDetail(val movieId: String) : NavRoute()

@@ -8,6 +8,7 @@ import androidx.navigation.toRoute
 import ucb.edu.bo.signin.presentation.screen.SigninScreen
 import ucb.edu.bo.signup.presentation.screen.SignUpScreen
 import ucb.edu.bo.movies.presentation.screen.MovieScreen
+import ucb.edu.bo.catalog.presentation.screen.CatalogScreen
 import ucb.edu.bo.moviedetail.presentation.screen.MovieDetailScreen
 import ucb.edu.bo.profile.presentation.screen.ProfileScreen
 
@@ -24,6 +25,9 @@ fun AppNavHost() {
         composable<NavRoute.Movies> {
             MovieScreen(navController = navController)
         }
+        composable<NavRoute.Catalog> {
+            CatalogScreen(navController = navController)
+        }
         composable<NavRoute.MovieDetail> { backStackEntry ->
             val detailRoute = backStackEntry.toRoute<NavRoute.MovieDetail>()
             MovieDetailScreen(
@@ -33,9 +37,6 @@ fun AppNavHost() {
         }
         composable<NavRoute.Profile> {
             ProfileScreen(navController = navController)
-        }
-        composable<NavRoute.ProfileEdit> {
-            // Pantalla de Edición de Perfil
         }
     }
 }

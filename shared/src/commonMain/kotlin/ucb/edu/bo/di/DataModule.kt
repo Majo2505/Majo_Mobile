@@ -11,11 +11,28 @@ import ucb.edu.bo.profile.data.repository.ProfileRepositoryImpl
 import ucb.edu.bo.profile.domain.repository.ProfileRepository
 import ucb.edu.bo.signup.data.repository.SignUpRepositoryImpl
 import ucb.edu.bo.signup.domain.repository.SignUpRepository
+import ucb.edu.bo.catalog.data.datasource.CatalogRemoteDataSource
+import ucb.edu.bo.catalog.data.repository.CatalogRepositoryImpl
+import ucb.edu.bo.catalog.data.service.CatalogApiService
+import ucb.edu.bo.catalog.domain.repository.CatalogRepository
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
+import ucb.edu.bo.userinformation.data.datasource.GithubRemoteDataSource
+import ucb.edu.bo.userinformation.data.repository.GithubRepositoryImpl
+import ucb.edu.bo.userinformation.data.service.GitHubApiService
+import ucb.edu.bo.userinformation.domain.repository.GithubRepository
 
 val dataModule = module {
-    single<SigninRepository> { SigninRepositoryImpl() }
+
     single<MovieRepository> { MovieRepositoryImpl() }
+    single<SigninRepository> { SigninRepositoryImpl() }
+    single<SignUpRepository> { SignUpRepositoryImpl() }
     single<MovieDetailRepository> { MovieDetailRepositoryImpl() }
     single<ProfileRepository> { ProfileRepositoryImpl() }
-    single<SignUpRepository> { SignUpRepositoryImpl() }
+    single<GithubRemoteDataSource> { GitHubApiService() }
+    single<GithubRepository> { GithubRepositoryImpl(get()) }
+    single<CatalogRemoteDataSource> { CatalogApiService() }
+    single<CatalogRepository> { CatalogRepositoryImpl(get()) }
 }

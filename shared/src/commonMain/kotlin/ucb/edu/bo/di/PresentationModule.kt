@@ -7,6 +7,7 @@ import ucb.edu.bo.movies.presentation.state.MovieViewModel
 import ucb.edu.bo.moviedetail.presentation.state.MovieDetailVM
 import ucb.edu.bo.profile.presentation.state.ProfileVM
 import ucb.edu.bo.signup.presentation.state.SignUpVM
+import ucb.edu.bo.catalog.presentation.state.CatalogVM
 
 val presentationModule = module {
     viewModel { SigninViewModel(get()) }
@@ -14,4 +15,5 @@ val presentationModule = module {
     viewModel { MovieDetailVM(get()) }
     viewModel { ProfileVM(get()) }
     viewModel { SignUpVM(get()) }
+    viewModel { CatalogVM(get()) }
 }

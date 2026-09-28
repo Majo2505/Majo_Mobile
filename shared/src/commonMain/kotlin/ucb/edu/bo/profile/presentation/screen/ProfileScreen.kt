@@ -96,6 +96,12 @@ fun ProfileScreen(
                     ) {
                         Text("Cerrar Sesión")
                     }
+                    TextButton(
+                        onClick = { navController.navigate(NavRoute.UserInfo) },
+                        modifier = Modifier.padding(top = 16.dp)
+                    ) {
+                        Text("Buscar Usuario de GitHub")
+                    }
                 }
             }
         }
