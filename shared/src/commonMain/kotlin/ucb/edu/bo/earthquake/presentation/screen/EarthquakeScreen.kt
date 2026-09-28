@@ -67,9 +67,8 @@ fun EarthquakeScreen(
                                     Text(text = "Ubicación: ${eq.place}", fontWeight = FontWeight.Bold)
                                     Text(text = "Magnitud: ${eq.magnitude}")
                                     Text(text = "Fecha y Hora: ${eq.time} ")
-                                    Text(text = "Profundidad: ${eq.depth} km")
                                     Text(text = "Enlace al evento: ${eq.url} ")
-                                    Text(text = "Lat: ${eq.latitude}, Lon: ${eq.longitude}")
+                                    Text(text = "Lat: ${eq.latitude}, Lon: ${eq.longitude}, Profundidad: ${eq.depth} km")
                                 }
                             }
                         }
