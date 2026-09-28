@@ -67,6 +67,12 @@ fun MovieScreen(
 
         }
         TextButton(
+            onClick = { navController.navigate(NavRoute.Earthquake) },
+            modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
+        ) {
+            Text("Ver EARTHQUAKES")
+        }
+        TextButton(
             onClick = { navController.navigate(NavRoute.Catalog) },
             modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
         ) {

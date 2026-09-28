@@ -8,6 +8,7 @@ import ucb.edu.bo.moviedetail.presentation.state.MovieDetailVM
 import ucb.edu.bo.profile.presentation.state.ProfileVM
 import ucb.edu.bo.signup.presentation.state.SignUpVM
 import ucb.edu.bo.catalog.presentation.state.CatalogVM
+import ucb.edu.bo.earthquake.presentation.states.EarthquakeViewModel
 import ucb.edu.bo.userinformation.presentation.states.UserInformationViewModel
 
 val presentationModule = module {
@@ -18,4 +19,5 @@ val presentationModule = module {
     viewModel { SignUpVM(get()) }
     viewModel { CatalogVM(get()) }
     viewModel { UserInformationViewModel(get()) }
+    viewModel { EarthquakeViewModel(get()) }
 }

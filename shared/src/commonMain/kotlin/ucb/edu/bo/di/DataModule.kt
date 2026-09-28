@@ -19,6 +19,10 @@ import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import ucb.edu.bo.earthquake.data.datasource.EarthquakeRemoteDataSource
+import ucb.edu.bo.earthquake.data.repository.EarthquakeRepositoryImpl
+import ucb.edu.bo.earthquake.data.service.EarthquakeApiService
+import ucb.edu.bo.earthquake.domain.repository.EarthquakeRepository
 import ucb.edu.bo.userinformation.data.datasource.GithubRemoteDataSource
 import ucb.edu.bo.userinformation.data.repository.GithubRepositoryImpl
 import ucb.edu.bo.userinformation.data.service.GitHubApiService
@@ -35,4 +39,7 @@ val dataModule = module {
     single<GithubRepository> { GithubRepositoryImpl(get()) }
     single<CatalogRemoteDataSource> { CatalogApiService() }
     single<CatalogRepository> { CatalogRepositoryImpl(get()) }
+    single<EarthquakeRemoteDataSource> { EarthquakeApiService() }
+    single<EarthquakeRepository> { EarthquakeRepositoryImpl(get()) }
+
 }

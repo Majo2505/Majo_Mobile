@@ -68,6 +68,12 @@ fun SigninScreen(
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(vertical = 32.dp)
         )
+        Text(
+            text = "mgr si esta probando , el iniciar sesion ponga cuqlquier caracter en correo y contraseña y funciona, me falta algunas cosas en la parte de authentication ",
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.ExtraLight,
+            modifier = Modifier.padding(vertical = 32.dp)
+        )
 
         OutlinedTextField(
             value = state.email,

@@ -9,6 +9,8 @@ sealed class NavRoute {
 
     @Serializable
     data object SignUp : NavRoute()
+    @Serializable
+    data object Earthquake : NavRoute()
 
     @Serializable
     data object UserInfo : NavRoute()
@@ -25,6 +27,5 @@ sealed class NavRoute {
     @Serializable
     data object Profile : NavRoute()
 
-    @Serializable
-    data object ProfileEdit : NavRoute()
+
 }

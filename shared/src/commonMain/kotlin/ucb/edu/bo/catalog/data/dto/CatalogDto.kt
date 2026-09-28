@@ -10,6 +10,8 @@ data class CatalogDto(
 )
 
 @Serializable
+
+
 data class MovieDto(
     val id: Int,
     val title: String,

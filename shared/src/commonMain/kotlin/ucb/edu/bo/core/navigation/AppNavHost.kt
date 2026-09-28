@@ -9,6 +9,7 @@ import ucb.edu.bo.signin.presentation.screen.SigninScreen
 import ucb.edu.bo.signup.presentation.screen.SignUpScreen
 import ucb.edu.bo.movies.presentation.screen.MovieScreen
 import ucb.edu.bo.catalog.presentation.screen.CatalogScreen
+import ucb.edu.bo.earthquake.presentation.screen.EarthquakeScreen
 import ucb.edu.bo.moviedetail.presentation.screen.MovieDetailScreen
 import ucb.edu.bo.profile.presentation.screen.ProfileScreen
 import ucb.edu.bo.userinformation.presentation.screen.UserInformationScreen
@@ -41,6 +42,9 @@ fun AppNavHost() {
         }
         composable<NavRoute.UserInfo> {
             UserInformationScreen(navController = navController)
+        }
+        composable<NavRoute.Earthquake> {
+            EarthquakeScreen(navController = navController)
         }
     }
 }
