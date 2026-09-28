@@ -7,6 +7,7 @@ import ucb.edu.bo.moviedetail.domain.usecase.GetMovieDetailUseCase
 import ucb.edu.bo.profile.domain.usecase.GetProfileUseCase
 import ucb.edu.bo.signup.domain.usecase.RegisterUseCase
 import ucb.edu.bo.catalog.domain.usecase.GetCatalogMoviesUseCase
+import ucb.edu.bo.userinformation.domain.usecase.FindAliasUseCase
 
 val domainModule = module {
     factory { SigninUseCase(get()) }
@@ -15,4 +16,5 @@ val domainModule = module {
     factory { GetProfileUseCase(get()) }
     factory { RegisterUseCase(get()) }
     factory { GetCatalogMoviesUseCase(get()) }
+    factory { FindAliasUseCase(get()) }
 }

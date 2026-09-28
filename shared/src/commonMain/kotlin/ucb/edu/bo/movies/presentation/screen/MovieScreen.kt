@@ -64,6 +64,13 @@ fun MovieScreen(
             TextButton(onClick = { navController.navigate(NavRoute.Profile) }) {
                 Text("Mi Perfil")
             }
+
+        }
+        TextButton(
+            onClick = { navController.navigate(NavRoute.Catalog) },
+            modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
+        ) {
+            Text("Ver Catalogo")
         }
         Box(modifier = Modifier.fillMaxSize()) {
             when {
