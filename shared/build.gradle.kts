@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
-
+    alias(libs.plugins.androidx.room3)
 }
 detekt {
     source.setFrom(
@@ -71,7 +71,7 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
-
+            implementation(libs.androidx.room3.sqlite.wrapper)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -91,7 +91,8 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
             implementation(libs.ktor.client.okhttp)
-
+            implementation(libs.androidx.room3.runtime)
+            implementation(libs.androidx.sqlite.bundled)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -101,4 +102,9 @@ kotlin {
 
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
+    add("kspAndroid", libs.androidx.room3.compiler)
+
+}
+room3 {
+    schemaDirectory("$projectDir/schemas")
 }
