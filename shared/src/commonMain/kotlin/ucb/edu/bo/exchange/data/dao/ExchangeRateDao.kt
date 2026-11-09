@@ -7,19 +7,19 @@ import androidx.room3.Query
 import ucb.edu.bo.exchange.data.entity.ExchangeRateEntity
 @Dao
 interface ExchangeRateDao {
-    @Query("SELECT * FROM exchangeRate")
+    @Query("SELECT * FROM exchangeRates")
     suspend fun getList(): List<ExchangeRateEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(dollar: ExchangeRateEntity)
 
-    @Query("DELETE FROM exchangeRate")
+    @Query("DELETE FROM exchangeRates")
     suspend fun deleteAll()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(entity: ExchangeRateEntity)
 
 
-    @Query("SELECT * FROM exchangeRate WHERE id = :id")
+    @Query("SELECT * FROM exchangeRates WHERE id = :id")
     suspend fun getById(id:String): ExchangeRateEntity?
 }
