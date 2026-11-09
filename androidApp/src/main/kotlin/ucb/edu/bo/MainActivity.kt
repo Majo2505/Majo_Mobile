@@ -85,7 +85,7 @@ class MainActivity : ComponentActivity() {
 
             val portapapeles = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             portapapeles.setPrimaryClip(ClipData.newPlainText("fcm_token", token))
-            Toast.makeText(this, "Token FCM copiado", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.fcm_token_copied), Toast.LENGTH_LONG).show()
         }
     }
 

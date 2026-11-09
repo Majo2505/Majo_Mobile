@@ -1,5 +1,7 @@
 ﻿package ucb.edu.bo.signin.presentation.state
 
+import org.jetbrains.compose.resources.getString
+import majo.shared.generated.resources.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ucb.edu.bo.push.domain.usecase.RegisterPushTokenUseCase
@@ -48,7 +50,10 @@ class SigninViewModel(
     private fun login() {
         val currentState = _uiState.value
         if (currentState.email.isBlank() || currentState.password.isBlank()) {
-            _uiState.update { it.copy(error = "Completa todos los campos") }
+            viewModelScope.launch {
+                val message = getString(Res.string.login_fill_fields)
+                _uiState.update { it.copy(error = message) }
+            }
             return
         }
 
@@ -72,7 +77,7 @@ class SigninViewModel(
                 _uiState.update { it.copy(isLoading = false) }
                 _uiEffect.emit(SigninEffects.NavigateToHome)
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, error = e.message ?: "Authentication failed") }
+                _uiState.update { it.copy(isLoading = false, error = e.message ?: getString(Res.string.common_unknown_error)) }
             }
         }
     }

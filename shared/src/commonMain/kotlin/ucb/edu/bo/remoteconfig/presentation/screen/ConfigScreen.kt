@@ -1,5 +1,7 @@
 package ucb.edu.bo.remoteconfig.presentation.screen
 
+import org.jetbrains.compose.resources.stringResource
+import majo.shared.generated.resources.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import edu.ucb.ds.components.buttons.PrimaryButton
 import edu.ucb.ds.components.cards.DsCard
 import edu.ucb.ds.components.labels.DsLabel
+import ucb.edu.bo.remoteconfig.domain.model.AppConfig
 import ucb.edu.bo.remoteconfig.presentation.state.ConfigEvents
 import ucb.edu.bo.remoteconfig.presentation.state.ConfigVM
 import org.koin.compose.viewmodel.koinViewModel
@@ -38,12 +41,12 @@ fun ConfigScreen(
     ) {
 
         DsLabel(
-            text = "Configuración remota"
+            text = stringResource(Res.string.profile_remote_config)
         )
 
         if (state.isOffline) {
             DsLabel(
-                text = "offline"
+                text = stringResource(Res.string.config_offline)
             )
         }
 
@@ -55,7 +58,15 @@ fun ConfigScreen(
             ) {
 
                 DsLabel(
-                    text = "Mensaje: ${state.welcomeMessage}"
+                    text = stringResource(
+                        Res.string.config_message,
+                        // Si Firebase no manda un valor, se muestra el texto por defecto traducido
+                        if (state.welcomeMessage == AppConfig.DEFAULT.welcomeMessage) {
+                            stringResource(Res.string.login_welcome)
+                        } else {
+                            state.welcomeMessage
+                        }
+                    )
                 )
 
                 Spacer(
@@ -63,7 +74,7 @@ fun ConfigScreen(
                 )
 
                 DsLabel(
-                    text = "Máximo de elementos: ${state.maxItems}"
+                    text = stringResource(Res.string.config_max_items, state.maxItems.toString())
                 )
 
                 Spacer(
@@ -71,25 +82,28 @@ fun ConfigScreen(
                 )
 
                 DsLabel(
-                    text = "Feature habilitado: ${state.featureEnabled}"
+                    text = stringResource(
+                        Res.string.config_feature,
+                        stringResource(if (state.featureEnabled) Res.string.common_yes else Res.string.common_no)
+                    )
                 )
             }
         }
 
         if (state.isLoading) {
             DsLabel(
-                text = "Cargando..."
+                text = stringResource(Res.string.common_loading)
             )
         }
 
         state.error?.let {
             DsLabel(
-                text = "Error: $it"
+                text = stringResource(Res.string.common_error, it)
             )
         }
 
         PrimaryButton(
-            text = "Refrescar",
+            text = stringResource(Res.string.config_refresh),
             onClick = {
                 viewModel.onEvent(
                     ConfigEvents.RefreshConfig

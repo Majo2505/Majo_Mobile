@@ -3,6 +3,7 @@ package ucb.edu.bo.push
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import ucb.edu.bo.R
 import ucb.edu.bo.push.domain.usecase.RefreshPushTokenUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +33,7 @@ class AppFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
 
         val titulo = message.notification?.title
             ?: message.data["titulo"]
-            ?: "Notificación"
+            ?: getString(R.string.notification_default_title)
         val contenido = message.notification?.body
             ?: message.data["contenido"]
             ?: ""

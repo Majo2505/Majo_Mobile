@@ -137,8 +137,13 @@ fun MovieScreen(
         }
 
         // Mensaje que viene de Remote Config
+        // Si Firebase no manda un valor, se muestra el texto por defecto traducido
         Text(
-            text = config.mensajeBienvenida,
+            text = if (config.mensajeBienvenida == AppConfig.DEFAULT.mensajeBienvenida) {
+                stringResource(Res.string.login_welcome)
+            } else {
+                config.mensajeBienvenida
+            },
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
         )

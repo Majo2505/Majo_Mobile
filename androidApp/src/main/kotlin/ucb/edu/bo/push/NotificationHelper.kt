@@ -23,10 +23,10 @@ object NotificationHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val canal = NotificationChannel(
                 CHANNEL_ID,
-                "Notificaciones generales",
+                context.getString(R.string.notification_channel_name),
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
-                description = "Notificaciones de la aplicacion"
+                description = context.getString(R.string.notification_channel_description)
             }
             context.getSystemService(NotificationManager::class.java)
                 .createNotificationChannel(canal)

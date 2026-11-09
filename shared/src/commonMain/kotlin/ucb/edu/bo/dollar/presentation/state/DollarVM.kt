@@ -1,5 +1,7 @@
 package ucb.edu.bo.dollar.presentation.state
 
+import org.jetbrains.compose.resources.getString
+import majo.shared.generated.resources.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ucb.edu.bo.dollar.domain.model.DollarModel
@@ -49,7 +51,7 @@ class DollarVM(
         viewModelScope.launch {
             observeDollarUseCase()
                 .catch { e ->
-                    _uiEffect.emit(DollarEffects.ShowError(e.message ?: "Error en Firebase"))
+                    _uiEffect.emit(DollarEffects.ShowError(e.message ?: getString(Res.string.dollar_firebase_error)))
                 }
                 .collect { value ->
                     _uiState.update { it.copy(realtimeValue = value) }
@@ -79,7 +81,7 @@ class DollarVM(
         val parallel = _uiState.value.parallelInput
         if (official.isBlank() || parallel.isBlank()) {
             viewModelScope.launch {
-                _uiEffect.emit(DollarEffects.ShowError("Completa ambos valores"))
+                _uiEffect.emit(DollarEffects.ShowError(getString(Res.string.dollar_fill_both)))
             }
             return
         }

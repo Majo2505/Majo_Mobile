@@ -1,5 +1,7 @@
 ﻿package ucb.edu.bo.moviedetail.presentation.screen
 
+import org.jetbrains.compose.resources.stringResource
+import majo.shared.generated.resources.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -47,14 +49,14 @@ fun MovieDetailScreen(
             }
             state.error != null -> {
                 Text(
-                    text = "Error: ${state.error}",
+                    text = stringResource(Res.string.common_error, state.error.toString()),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
             state.detail != null -> {
                 Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
                     TextButton(onClick = { viewModel.onEvent(MovieDetailEvents.OnBackClicked) }) {
-                        Text("< Volver")
+                        Text(stringResource(Res.string.common_back))
                     }
                     Text(
                         text = state.detail!!.title,

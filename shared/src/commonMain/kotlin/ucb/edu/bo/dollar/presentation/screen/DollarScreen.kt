@@ -78,7 +78,10 @@ fun DollarScreen(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
         ) {
             Text(
-                text = "Firebase (tiempo real): ${state.realtimeValue ?: "sin datos"}",
+                text = stringResource(
+                    Res.string.dollar_realtime,
+                    state.realtimeValue ?: stringResource(Res.string.common_no_data)
+                ),
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.padding(16.dp)
             )

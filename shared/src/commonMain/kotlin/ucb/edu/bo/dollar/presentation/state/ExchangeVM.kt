@@ -1,5 +1,7 @@
 package ucb.edu.bo.dollar.presentation.state
 
+import org.jetbrains.compose.resources.getString
+import majo.shared.generated.resources.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ucb.edu.bo.dollar.domain.usecase.ObserveExchangeUseCase
@@ -23,7 +25,7 @@ class ExchangeVM(
         viewModelScope.launch {
             usecase.invoke()
                 .collect { message ->
-                    _message.value = message ?: "Test"
+                    _message.value = message ?: getString(Res.string.common_no_data)
                 }
         }
     }
