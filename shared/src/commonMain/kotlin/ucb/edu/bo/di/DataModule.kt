@@ -30,6 +30,7 @@ import ucb.edu.bo.userinformation.domain.repository.GithubRepository
 import ucb.edu.bo.config.AppDatabase
 import ucb.edu.bo.dollar.data.dao.DollarDao
 import ucb.edu.bo.dollar.data.datasource.DollarLocalDataSource
+import ucb.edu.bo.dollar.data.datasource.RealTimeDataBase
 import ucb.edu.bo.dollar.data.repository.DollarRepositoryImpl
 import ucb.edu.bo.dollar.domain.repository.DollarRepository
 import org.koin.core.module.dsl.singleOf
@@ -49,6 +50,7 @@ val dataModule = module {
     single<EarthquakeRepository> { EarthquakeRepositoryImpl(get()) }
     single<DollarDao> { get<AppDatabase>().getDao() }
     singleOf(::DollarLocalDataSource)
-    single<DollarRepository> { DollarRepositoryImpl(get()) }
+    single { RealTimeDataBase() }
+    single<DollarRepository> { DollarRepositoryImpl(get(), get()) }
 
 }

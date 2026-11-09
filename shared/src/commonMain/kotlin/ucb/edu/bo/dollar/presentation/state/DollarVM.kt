@@ -5,16 +5,19 @@ import androidx.lifecycle.viewModelScope
 import ucb.edu.bo.dollar.domain.model.DollarModel
 import ucb.edu.bo.dollar.domain.usecase.GetDollarListUseCase
 import ucb.edu.bo.dollar.domain.usecase.InsertDollarUseCase
+import ucb.edu.bo.dollar.domain.usecase.ObserveDollarUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class DollarVM(
     private val getDollarListUseCase: GetDollarListUseCase,
-    private val insertDollarUseCase: InsertDollarUseCase
+    private val insertDollarUseCase: InsertDollarUseCase,
+    private val observeDollarUseCase: ObserveDollarUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(DollarState())
     val uiState = _uiState.asStateFlow()
@@ -24,6 +27,7 @@ class DollarVM(
 
     init {
         loadList()
+        observeRealtime()
     }
 
     fun onEvent(event: DollarEvents) {
@@ -35,6 +39,18 @@ class DollarVM(
                 _uiState.update { it.copy(parallelInput = event.value) }
             }
             DollarEvents.OnAddRecord -> addRecord()
+        }
+    }
+
+    private fun observeRealtime() {
+        viewModelScope.launch {
+            observeDollarUseCase()
+                .catch { e ->
+                    _uiEffect.emit(DollarEffects.ShowError(e.message ?: "Error en Firebase"))
+                }
+                .collect { value ->
+                    _uiState.update { it.copy(realtimeValue = value) }
+                }
         }
     }
 

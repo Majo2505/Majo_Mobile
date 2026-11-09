@@ -21,5 +21,5 @@ val presentationModule = module {
     viewModel { CatalogVM(get()) }
     viewModel { UserInformationViewModel(get()) }
     viewModel { EarthquakeViewModel(get()) }
-    viewModel { DollarVM(get(), get()) }
+    viewModel { DollarVM(get(), get(), get()) }
 }

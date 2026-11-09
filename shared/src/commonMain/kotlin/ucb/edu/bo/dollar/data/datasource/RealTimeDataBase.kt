@@ -1,4 +1,4 @@
-package ucb.edu.bo.exchange.data.datasource
+package ucb.edu.bo.dollar.data.datasource
 
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.database.database

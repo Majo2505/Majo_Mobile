@@ -11,6 +11,7 @@ import ucb.edu.bo.earthquake.domain.usecase.GetEarthquakesUseCase
 import ucb.edu.bo.userinformation.domain.usecase.FindAliasUseCase
 import ucb.edu.bo.dollar.domain.usecase.GetDollarListUseCase
 import ucb.edu.bo.dollar.domain.usecase.InsertDollarUseCase
+import ucb.edu.bo.dollar.domain.usecase.ObserveDollarUseCase
 
 val domainModule = module {
     factory { SigninUseCase(get()) }
@@ -23,4 +24,5 @@ val domainModule = module {
     factory { GetEarthquakesUseCase(get()) }
     factory { GetDollarListUseCase(get()) }
     factory { InsertDollarUseCase(get()) }
+    factory { ObserveDollarUseCase(get()) }
 }

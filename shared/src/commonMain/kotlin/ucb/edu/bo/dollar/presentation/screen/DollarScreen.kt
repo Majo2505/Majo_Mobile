@@ -69,6 +69,17 @@ fun DollarScreen(
             fontWeight = FontWeight.Bold
         )
 
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+        ) {
+            Text(
+                text = "Firebase (tiempo real): ${state.realtimeValue ?: "sin datos"}",
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+
         OutlinedTextField(
             value = state.officialInput,
             onValueChange = { viewModel.onEvent(DollarEvents.OnOfficialChange(it)) },
