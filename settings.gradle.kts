@@ -30,5 +30,8 @@ dependencyResolutionManagement {
     }
 }
 
+// Design System incluido en este repo (reemplaza al publishToMavenLocal)
+includeBuild("designsystem")
+
 include(":androidApp")
 include(":shared")

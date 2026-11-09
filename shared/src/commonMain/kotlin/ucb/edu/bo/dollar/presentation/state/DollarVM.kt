@@ -6,6 +6,7 @@ import ucb.edu.bo.dollar.domain.model.DollarModel
 import ucb.edu.bo.dollar.domain.usecase.GetDollarListUseCase
 import ucb.edu.bo.dollar.domain.usecase.InsertDollarUseCase
 import ucb.edu.bo.dollar.domain.usecase.ObserveDollarUseCase
+import ucb.edu.bo.dollar.domain.usecase.SyncDollarUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 class DollarVM(
     private val getDollarListUseCase: GetDollarListUseCase,
     private val insertDollarUseCase: InsertDollarUseCase,
-    private val observeDollarUseCase: ObserveDollarUseCase
+    private val observeDollarUseCase: ObserveDollarUseCase,
+    private val syncDollarUseCase: SyncDollarUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(DollarState())
     val uiState = _uiState.asStateFlow()
@@ -28,6 +30,7 @@ class DollarVM(
     init {
         loadList()
         observeRealtime()
+        syncAndReload()
     }
 
     fun onEvent(event: DollarEvents) {
@@ -59,6 +62,15 @@ class DollarVM(
             _uiState.update { it.copy(isLoading = true) }
             val list = getDollarListUseCase()
             _uiState.update { it.copy(isLoading = false, list = list) }
+        }
+    }
+
+    // Sincroniza Room con Firestore y luego vuelve a mostrar la lista
+    private fun syncAndReload() {
+        viewModelScope.launch {
+            syncDollarUseCase()
+            val list = getDollarListUseCase()
+            _uiState.update { it.copy(list = list) }
         }
     }
 

@@ -14,6 +14,8 @@ import ucb.edu.bo.moviedetail.presentation.screen.MovieDetailScreen
 import ucb.edu.bo.profile.presentation.screen.ProfileScreen
 import ucb.edu.bo.userinformation.presentation.screen.UserInformationScreen
 import ucb.edu.bo.dollar.presentation.screen.DollarScreen
+import ucb.edu.bo.dollar.presentation.screen.ExchangeScreen
+import ucb.edu.bo.remoteconfig.presentation.screen.ConfigScreen
 
 @Composable
 fun AppNavHost() {
@@ -49,6 +51,12 @@ fun AppNavHost() {
         }
         composable<NavRoute.Dollar> {
             DollarScreen(navController = navController)
+        }
+        composable<NavRoute.Exchange> {
+            ExchangeScreen(navController = navController)
+        }
+        composable<NavRoute.Config> {
+            ConfigScreen()
         }
     }
 }
