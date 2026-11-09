@@ -3,13 +3,13 @@ import androidx.room3.ConstructedBy
 import androidx.room3.Database
 import androidx.room3.RoomDatabase
 import androidx.room3.RoomDatabaseConstructor
-import ucb.edu.bo.exchange.data.dao.ExchangeRateDao
-import ucb.edu.bo.exchange.data.entity.ExchangeRateEntity
+import ucb.edu.bo.dollar.data.dao.DollarDao
+import ucb.edu.bo.dollar.data.entity.DollarEntity
 
-@Database(entities = [ExchangeRateEntity::class], version = 1)
+@Database(entities = [DollarEntity::class], version = 1)
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun getDao(): ExchangeRateDao
+    abstract fun getDao(): DollarDao
 }
 
 // The Room compiler generates the `actual` implementations.

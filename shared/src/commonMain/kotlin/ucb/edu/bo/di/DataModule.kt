@@ -27,6 +27,12 @@ import ucb.edu.bo.userinformation.data.datasource.GithubRemoteDataSource
 import ucb.edu.bo.userinformation.data.repository.GithubRepositoryImpl
 import ucb.edu.bo.userinformation.data.service.GitHubApiService
 import ucb.edu.bo.userinformation.domain.repository.GithubRepository
+import ucb.edu.bo.config.AppDatabase
+import ucb.edu.bo.dollar.data.dao.DollarDao
+import ucb.edu.bo.dollar.data.datasource.DollarLocalDataSource
+import ucb.edu.bo.dollar.data.repository.DollarRepositoryImpl
+import ucb.edu.bo.dollar.domain.repository.DollarRepository
+import org.koin.core.module.dsl.singleOf
 
 val dataModule = module {
 
@@ -41,5 +47,8 @@ val dataModule = module {
     single<CatalogRepository> { CatalogRepositoryImpl(get()) }
     single<EarthquakeRemoteDataSource> { EarthquakeApiService() }
     single<EarthquakeRepository> { EarthquakeRepositoryImpl(get()) }
+    single<DollarDao> { get<AppDatabase>().getDao() }
+    singleOf(::DollarLocalDataSource)
+    single<DollarRepository> { DollarRepositoryImpl(get()) }
 
 }

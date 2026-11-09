@@ -84,6 +84,12 @@ fun MovieScreen(
         ) {
             Text("Buscar usuariosgithub")
         }
+        TextButton(
+            onClick = { navController.navigate(NavRoute.Dollar) },
+            modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
+        ) {
+            Text("Ver Cambio de Dolar")
+        }
         Box(modifier = Modifier.fillMaxSize()) {
             when {
                 state.isLoading -> {

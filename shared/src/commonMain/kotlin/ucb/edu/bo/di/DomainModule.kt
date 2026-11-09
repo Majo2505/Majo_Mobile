@@ -9,6 +9,8 @@ import ucb.edu.bo.signup.domain.usecase.RegisterUseCase
 import ucb.edu.bo.catalog.domain.usecase.GetCatalogMoviesUseCase
 import ucb.edu.bo.earthquake.domain.usecase.GetEarthquakesUseCase
 import ucb.edu.bo.userinformation.domain.usecase.FindAliasUseCase
+import ucb.edu.bo.dollar.domain.usecase.GetDollarListUseCase
+import ucb.edu.bo.dollar.domain.usecase.InsertDollarUseCase
 
 val domainModule = module {
     factory { SigninUseCase(get()) }
@@ -19,4 +21,6 @@ val domainModule = module {
     factory { GetCatalogMoviesUseCase(get()) }
     factory { FindAliasUseCase(get()) }
     factory { GetEarthquakesUseCase(get()) }
+    factory { GetDollarListUseCase(get()) }
+    factory { InsertDollarUseCase(get()) }
 }

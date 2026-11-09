@@ -2,8 +2,10 @@
 import ucb.edu.bo.di.dataModule
 import ucb.edu.bo.di.domainModule
 import ucb.edu.bo.di.presentationModule
+import ucb.edu.bo.di.platformModule
 
 fun sharedModules(): List<Module> = listOf(
+    platformModule(),
     dataModule,
     presentationModule,
     domainModule

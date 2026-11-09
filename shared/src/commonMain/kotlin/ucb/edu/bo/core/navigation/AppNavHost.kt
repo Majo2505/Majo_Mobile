@@ -13,6 +13,7 @@ import ucb.edu.bo.earthquake.presentation.screen.EarthquakeScreen
 import ucb.edu.bo.moviedetail.presentation.screen.MovieDetailScreen
 import ucb.edu.bo.profile.presentation.screen.ProfileScreen
 import ucb.edu.bo.userinformation.presentation.screen.UserInformationScreen
+import ucb.edu.bo.dollar.presentation.screen.DollarScreen
 
 @Composable
 fun AppNavHost() {
@@ -45,6 +46,9 @@ fun AppNavHost() {
         }
         composable<NavRoute.Earthquake> {
             EarthquakeScreen(navController = navController)
+        }
+        composable<NavRoute.Dollar> {
+            DollarScreen(navController = navController)
         }
     }
 }

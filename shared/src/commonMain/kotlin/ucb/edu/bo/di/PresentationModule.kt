@@ -10,6 +10,7 @@ import ucb.edu.bo.signup.presentation.state.SignUpVM
 import ucb.edu.bo.catalog.presentation.state.CatalogVM
 import ucb.edu.bo.earthquake.presentation.states.EarthquakeViewModel
 import ucb.edu.bo.userinformation.presentation.states.UserInformationViewModel
+import ucb.edu.bo.dollar.presentation.state.DollarVM
 
 val presentationModule = module {
     viewModel { SigninViewModel(get()) }
@@ -20,4 +21,5 @@ val presentationModule = module {
     viewModel { CatalogVM(get()) }
     viewModel { UserInformationViewModel(get()) }
     viewModel { EarthquakeViewModel(get()) }
+    viewModel { DollarVM(get(), get()) }
 }
