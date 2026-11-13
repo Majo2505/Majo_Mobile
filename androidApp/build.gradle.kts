@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.googleServices)
 }
 
 kotlin {
@@ -17,6 +18,13 @@ dependencies {
     implementation(libs.compose.uiToolingPreview)
     debugImplementation(libs.compose.uiTooling)
     implementation("androidx.compose.ui:ui-text-google-fonts:1.6.8")
+    implementation("edu.ucb.ds:shared:1.0.0-SNAPSHOT")
+    implementation(libs.compose.foundation)
+    implementation(libs.koin.core)
+
+    // Firebase Cloud Messaging (notificaciones push)
+    implementation(platform("com.google.firebase:firebase-bom:34.0.0"))
+    implementation("com.google.firebase:firebase-messaging")
 }
 
 
@@ -30,6 +38,8 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField("String", "GLOBAL_PROVIDER", "\"CalyrSoft\"")
     }
     flavorDimensions += "environment"
     productFlavors {

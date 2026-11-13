@@ -9,7 +9,8 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
-
+    alias(libs.plugins.androidx.room3)
+    alias(libs.plugins.wire)
 }
 detekt {
     source.setFrom(
@@ -49,7 +50,7 @@ kotlin {
        minSdk = libs.versions.android.minSdk.get().toInt()
     
        compilerOptions {
-           jvmTarget = JvmTarget.JVM_11
+           jvmTarget = JvmTarget.JVM_17
        }
        androidResources {
            enable = true
@@ -71,7 +72,12 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
-
+            implementation(libs.androidx.room3.sqlite.wrapper)
+            implementation(libs.koin.android)
+            implementation(libs.androidx.work.runtime.ktx)
+            implementation(project.dependencies.platform("com.google.firebase:firebase-bom:34.0.0"))
+            implementation("com.google.firebase:firebase-messaging")
+            implementation("com.google.firebase:firebase-analytics")
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -91,7 +97,14 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
             implementation(libs.ktor.client.okhttp)
-
+            implementation(libs.androidx.room3.runtime)
+            implementation(libs.androidx.sqlite.bundled)
+            implementation(libs.firebase.database)
+            implementation(libs.firebase.config)
+            implementation(libs.firebase.firestore)
+            implementation(libs.wire.runtime)
+            implementation(libs.wire.grpc.client)
+            implementation("edu.ucb.ds:shared:1.0.0-SNAPSHOT")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -101,4 +114,18 @@ kotlin {
 
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
+    add("kspAndroid", libs.androidx.room3.compiler)
+
+}
+room3 {
+    schemaDirectory("$projectDir/schemas")
+}
+
+wire {
+    sourcePath {
+        srcDir("src/commonMain/kotlin/proto")
+    }
+    kotlin {
+        rpcRole = "client"
+    }
 }

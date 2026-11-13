@@ -1,7 +1,10 @@
 ﻿package ucb.edu.bo.signin.presentation.state
 
+import org.jetbrains.compose.resources.getString
+import majo.shared.generated.resources.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ucb.edu.bo.push.domain.usecase.RegisterPushTokenUseCase
 import ucb.edu.bo.signin.domain.usecase.SigninUseCase
 import ucb.edu.bo.signin.domain.vo.Email
 import ucb.edu.bo.signin.domain.vo.Password
@@ -13,8 +16,12 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 
-class SigninViewModel(private val signinUseCase: SigninUseCase) : ViewModel() {
+class SigninViewModel(
+    private val signinUseCase: SigninUseCase,
+    private val registerPushTokenUseCase: RegisterPushTokenUseCase
+) : ViewModel() {
     private val _uiState = MutableStateFlow(SigninState())
     val uiState: StateFlow<SigninState> = _uiState.asStateFlow()
 
@@ -43,21 +50,34 @@ class SigninViewModel(private val signinUseCase: SigninUseCase) : ViewModel() {
     private fun login() {
         val currentState = _uiState.value
         if (currentState.email.isBlank() || currentState.password.isBlank()) {
-            _uiState.update { it.copy(error = "Completa todos los campos") }
+            viewModelScope.launch {
+                val message = getString(Res.string.login_fill_fields)
+                _uiState.update { it.copy(error = message) }
+            }
             return
         }
 
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
             try {
-                signinUseCase.invoke(
+                val result = signinUseCase.invoke(
                     email = Email(currentState.email),
                     password = Password(currentState.password)
                 )
+                // Guarda el token FCM asociado al usuario (si falla, el login sigue).
+                // Si el login de prueba no devuelve usuario, se usa el correo como id.
+                // Sin internet no se queda esperando: a los 5 segundos sigue.
+                val user = result.getOrNull()
+                withTimeoutOrNull(5_000) {
+                    registerPushTokenUseCase(
+                        userId = user?.id ?: currentState.email,
+                        email = user?.email ?: currentState.email
+                    )
+                }
                 _uiState.update { it.copy(isLoading = false) }
                 _uiEffect.emit(SigninEffects.NavigateToHome)
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, error = e.message ?: "Authentication failed") }
+                _uiState.update { it.copy(isLoading = false, error = e.message ?: getString(Res.string.common_unknown_error)) }
             }
         }
     }

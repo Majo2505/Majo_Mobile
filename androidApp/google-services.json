@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "603090324102",
+    "firebase_url": "https://majo-c7d3c-default-rtdb.firebaseio.com",
+    "project_id": "majo-c7d3c",
+    "storage_bucket": "majo-c7d3c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603090324102:android:e45cac9b94e5538ebddf07",
+        "android_client_info": {
+          "package_name": "ucb.edu.bo.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeAnL42ReQbUfO5vcU8qZw45eun6B1VVo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
