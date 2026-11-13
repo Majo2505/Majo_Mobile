@@ -34,6 +34,23 @@ import ucb.edu.bo.dollar.data.datasource.RealTimeDataBase
 import ucb.edu.bo.dollar.data.repository.DollarRepositoryImpl
 import ucb.edu.bo.dollar.domain.repository.DollarRepository
 import org.koin.core.module.dsl.singleOf
+import ucb.edu.bo.analytics.AnalyticsTracker
+import ucb.edu.bo.core.grpc.GrpcConfig
+import ucb.edu.bo.dollar.data.datasource.DollarFirestoreDataSource
+import ucb.edu.bo.dollar.data.repository.ExchangeRepositoryImpl
+import ucb.edu.bo.dollar.domain.repository.ExchangeRepository
+import ucb.edu.bo.logs.data.datasource.LogsRemoteDataSource
+import ucb.edu.bo.logs.data.repository.LogsRepositoryImpl
+import ucb.edu.bo.logs.data.service.LogsService
+import ucb.edu.bo.logs.domain.repository.LogsRepository
+import ucb.edu.bo.push.data.datasource.PushTokenDataBase
+import ucb.edu.bo.push.data.datasource.PushTokenFirestoreDataSource
+import ucb.edu.bo.push.data.provider.PushTokenProvider
+import ucb.edu.bo.push.data.repository.PushTokenRepositoryImpl
+import ucb.edu.bo.push.domain.repository.PushTokenRepository
+import ucb.edu.bo.remoteconfig.data.datasource.RemoteConfigDataSource
+import ucb.edu.bo.remoteconfig.data.repository.AppConfigRepositoryImpl
+import ucb.edu.bo.remoteconfig.domain.repository.AppConfigRepository
 
 val dataModule = module {
 
@@ -51,6 +68,23 @@ val dataModule = module {
     single<DollarDao> { get<AppDatabase>().getDao() }
     singleOf(::DollarLocalDataSource)
     single { RealTimeDataBase() }
-    single<DollarRepository> { DollarRepositoryImpl(get(), get()) }
+    singleOf(::DollarFirestoreDataSource)
+    single<DollarRepository> { DollarRepositoryImpl(get(), get(), get()) }
+    single<ExchangeRepository> { ExchangeRepositoryImpl(get()) }
+
+    // Notificaciones push: token FCM en Realtime Database y Firestore
+    singleOf(::PushTokenProvider)
+    singleOf(::PushTokenDataBase)
+    singleOf(::PushTokenFirestoreDataSource)
+    single<PushTokenRepository> { PushTokenRepositoryImpl(get(), get(), get()) }
+
+    // Remote Config con cache (la cache viene del platformModule)
+    singleOf(::RemoteConfigDataSource)
+    single<AppConfigRepository> { AppConfigRepositoryImpl(dataSource = get(), cache = get()) }
+
+    // Analytics y logs por gRPC
+    singleOf(::AnalyticsTracker)
+    single<LogsRemoteDataSource> { LogsService(GrpcConfig.LOGS_URL) }
+    single<LogsRepository> { LogsRepositoryImpl(get()) }
 
 }

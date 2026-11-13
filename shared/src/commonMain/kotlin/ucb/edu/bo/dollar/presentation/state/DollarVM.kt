@@ -1,11 +1,14 @@
 package ucb.edu.bo.dollar.presentation.state
 
+import org.jetbrains.compose.resources.getString
+import majo.shared.generated.resources.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ucb.edu.bo.dollar.domain.model.DollarModel
 import ucb.edu.bo.dollar.domain.usecase.GetDollarListUseCase
 import ucb.edu.bo.dollar.domain.usecase.InsertDollarUseCase
 import ucb.edu.bo.dollar.domain.usecase.ObserveDollarUseCase
+import ucb.edu.bo.dollar.domain.usecase.SyncDollarUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -17,7 +20,8 @@ import kotlinx.coroutines.launch
 class DollarVM(
     private val getDollarListUseCase: GetDollarListUseCase,
     private val insertDollarUseCase: InsertDollarUseCase,
-    private val observeDollarUseCase: ObserveDollarUseCase
+    private val observeDollarUseCase: ObserveDollarUseCase,
+    private val syncDollarUseCase: SyncDollarUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(DollarState())
     val uiState = _uiState.asStateFlow()
@@ -28,6 +32,7 @@ class DollarVM(
     init {
         loadList()
         observeRealtime()
+        syncAndReload()
     }
 
     fun onEvent(event: DollarEvents) {
@@ -46,7 +51,7 @@ class DollarVM(
         viewModelScope.launch {
             observeDollarUseCase()
                 .catch { e ->
-                    _uiEffect.emit(DollarEffects.ShowError(e.message ?: "Error en Firebase"))
+                    _uiEffect.emit(DollarEffects.ShowError(e.message ?: getString(Res.string.dollar_firebase_error)))
                 }
                 .collect { value ->
                     _uiState.update { it.copy(realtimeValue = value) }
@@ -62,12 +67,21 @@ class DollarVM(
         }
     }
 
+    // Sincroniza Room con Firestore y luego vuelve a mostrar la lista
+    private fun syncAndReload() {
+        viewModelScope.launch {
+            syncDollarUseCase()
+            val list = getDollarListUseCase()
+            _uiState.update { it.copy(list = list) }
+        }
+    }
+
     private fun addRecord() {
         val official = _uiState.value.officialInput
         val parallel = _uiState.value.parallelInput
         if (official.isBlank() || parallel.isBlank()) {
             viewModelScope.launch {
-                _uiEffect.emit(DollarEffects.ShowError("Completa ambos valores"))
+                _uiEffect.emit(DollarEffects.ShowError(getString(Res.string.dollar_fill_both)))
             }
             return
         }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_channel_name">Notificaciones generales</string>
+    <string name="notification_channel_description">Notificaciones de la aplicación</string>
+    <string name="notification_default_title">Notificación</string>
+    <string name="fcm_token_copied">Token FCM copiado</string>
+</resources>

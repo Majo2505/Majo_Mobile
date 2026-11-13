@@ -1,5 +1,7 @@
 ﻿package ucb.edu.bo.userinformation.presentation.states
 
+import org.jetbrains.compose.resources.getString
+import majo.shared.generated.resources.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ucb.edu.bo.userinformation.domain.usecase.FindAliasUseCase
@@ -43,7 +45,8 @@ class UserInformationViewModel(
                         },
                         onFailure = {
                             _state.update { it.copy(isLoading = false) }
-                            emitEffect(UserInformationEffect.ShowToast(it.message ?: "Error"))
+                            val message = it.message ?: getString(Res.string.common_unknown_error)
+                            emitEffect(UserInformationEffect.ShowToast(message))
                         }
                     )
                 }

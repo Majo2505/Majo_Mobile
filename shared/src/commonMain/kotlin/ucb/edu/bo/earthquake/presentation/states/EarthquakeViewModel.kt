@@ -1,5 +1,7 @@
 ﻿package ucb.edu.bo.earthquake.presentation.states
 
+import org.jetbrains.compose.resources.getString
+import majo.shared.generated.resources.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -29,7 +31,7 @@ class EarthquakeViewModel(
                             _uiState.update { it.copy(isLoading = false, earthquakes = list) }
                         },
                         onFailure = { error ->
-                            _uiState.update { it.copy(isLoading = false, error = error.message ?: "Error desconocido") }
+                            _uiState.update { it.copy(isLoading = false, error = error.message ?: getString(Res.string.common_unknown_error)) }
                         }
                     )
                 }

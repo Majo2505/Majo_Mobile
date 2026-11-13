@@ -1,6 +1,13 @@
 ﻿package ucb.edu.bo.profile.presentation.screen
 
+import org.jetbrains.compose.resources.stringResource
+import majo.shared.generated.resources.*
+
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.OutlinedButton
+import ucb.edu.bo.core.theme.AppearanceSettings
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -56,17 +63,20 @@ fun ProfileScreen(
             }
             state.error != null -> {
                 Text(
-                    text = "Error: ${state.error}",
+                    text = stringResource(Res.string.common_error, state.error.toString()),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
             state.profile != null -> {
                 Column(
-                    modifier = Modifier.fillMaxSize().padding(24.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(24.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     TextButton(onClick = { navController.popBackStack() }) {
-                        Text("< Volver")
+                        Text(stringResource(Res.string.common_back))
                     }
 
                     Card(
@@ -90,17 +100,27 @@ fun ProfileScreen(
                         }
                     }
 
+                    OutlinedButton(
+                        onClick = { navController.navigate(NavRoute.UserInfo) },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(stringResource(Res.string.profile_github))
+                    }
+
+                    OutlinedButton(
+                        onClick = { navController.navigate(NavRoute.Config) },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(stringResource(Res.string.profile_remote_config))
+                    }
+
+                    AppearanceSettings()
+
                     Button(
                         onClick = { viewModel.onEvent(ProfileEvents.OnLogout) },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Cerrar Sesión")
-                    }
-                    TextButton(
-                        onClick = { navController.navigate(NavRoute.UserInfo) },
-                        modifier = Modifier.padding(top = 16.dp)
-                    ) {
-                        Text("Buscar Usuario de GitHub")
+                        Text(stringResource(Res.string.profile_logout))
                     }
                 }
             }
