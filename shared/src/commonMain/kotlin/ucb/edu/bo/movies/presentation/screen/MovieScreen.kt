@@ -69,8 +69,13 @@ fun MovieScreen(
     // SURVEYMONKEY: invitacion a la encuesta
     var showSurveyPrompt by remember { mutableStateOf(false) }
 
+    // Se vuelve a leer cada 15 s mientras la pantalla esta abierta (igual que en Configuracion remota).
+    // El LaunchedEffect se cancela solo al salir de la pantalla.
     LaunchedEffect(Unit) {
-        config = getAppConfig()
+        while (true) {
+            config = getAppConfig()
+            delay(15_000L)
+        }
     }
 
     // ANALYTICS: el usuario abrio la pantalla de peliculas
