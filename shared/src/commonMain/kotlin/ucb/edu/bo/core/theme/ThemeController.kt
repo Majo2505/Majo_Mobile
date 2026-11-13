@@ -13,12 +13,21 @@ enum class FontSizeChoice(val scale: Float) {
     EXTRA_LARGE(1.6f)
 }
 
+// Idioma elegido por el usuario (null = el idioma del telefono)
+enum class LanguageChoice(val tag: String?) {
+    SYSTEM(null),
+    SPANISH("es"),
+    ENGLISH("en")
+}
+
 // Permite leer y cambiar el tema y el tamano de fuente desde cualquier pantalla
 class ThemeController(
     val choice: ThemeChoice,
     val onChoiceChange: (ThemeChoice) -> Unit,
     val fontSize: FontSizeChoice = FontSizeChoice.NORMAL,
-    val onFontSizeChange: (FontSizeChoice) -> Unit = {}
+    val onFontSizeChange: (FontSizeChoice) -> Unit = {},
+    val language: LanguageChoice = LanguageChoice.SYSTEM,
+    val onLanguageChange: (LanguageChoice) -> Unit = {}
 )
 
 val LocalThemeController = staticCompositionLocalOf {

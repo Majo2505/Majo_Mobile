@@ -89,4 +89,8 @@
     <string name="config_refresh">Refresh</string>
     <string name="movie_detail_title">Movie %1$s</string>
     <string name="movie_detail_description">Description of movie %1$s</string>
+    <string name="appearance_language">Language</string>
+    <string name="language_system">Follow system</string>
+    <string name="language_spanish">Espa&#241;ol</string>
+    <string name="language_english">English</string>
 </resources>

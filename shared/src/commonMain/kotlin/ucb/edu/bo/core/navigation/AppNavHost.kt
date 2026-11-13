@@ -1,6 +1,7 @@
 ﻿package ucb.edu.bo.core.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -18,8 +19,7 @@ import ucb.edu.bo.dollar.presentation.screen.ExchangeScreen
 import ucb.edu.bo.remoteconfig.presentation.screen.ConfigScreen
 
 @Composable
-fun AppNavHost() {
-    val navController = rememberNavController()
+fun AppNavHost(navController: NavHostController = rememberNavController()) {
     NavHost(navController = navController, startDestination = NavRoute.Login) {
         composable<NavRoute.Login> {
             SigninScreen(navController = navController)
@@ -56,7 +56,7 @@ fun AppNavHost() {
             ExchangeScreen(navController = navController)
         }
         composable<NavRoute.Config> {
-            ConfigScreen()
+            ConfigScreen(navController = navController)
         }
     }
 }

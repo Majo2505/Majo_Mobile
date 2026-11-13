@@ -9,6 +9,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.navigation.NavHostController
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,6 +29,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ConfigScreen(
+    navController: NavHostController,
     viewModel: ConfigVM = koinViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -36,9 +41,14 @@ fun ConfigScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .statusBarsPadding()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+
+        TextButton(onClick = { navController.popBackStack() }) {
+            Text(stringResource(Res.string.common_back))
+        }
 
         DsLabel(
             text = stringResource(Res.string.profile_remote_config)

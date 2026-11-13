@@ -18,8 +18,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import edu.ucb.ds.theme.DsTheme
 import edu.ucb.ds.theme.DsThemeMode
+import androidx.navigation.compose.rememberNavController
+import ucb.edu.bo.core.locale.AppEnvironment
 import ucb.edu.bo.core.navigation.AppNavHost
 import ucb.edu.bo.core.theme.FontSizeChoice
+import ucb.edu.bo.core.theme.LanguageChoice
 import ucb.edu.bo.core.theme.LocalThemeController
 import ucb.edu.bo.core.theme.ThemeChoice
 import ucb.edu.bo.core.theme.ThemeController
@@ -30,6 +33,10 @@ fun App() {
     val systemDark = isSystemInDarkTheme()
     var choice by remember { mutableStateOf(ThemeChoice.SYSTEM) }
     var fontSize by remember { mutableStateOf(FontSizeChoice.NORMAL) }
+    var language by remember { mutableStateOf(LanguageChoice.SYSTEM) }
+
+    // Se crea aqui (fuera del cambio de idioma) para no perder la pantalla actual al cambiarlo
+    val navController = rememberNavController()
 
     val mode = when (choice) {
         ThemeChoice.SYSTEM -> if (systemDark) DsThemeMode.DARK else DsThemeMode.LIGHT
@@ -37,12 +44,14 @@ fun App() {
         ThemeChoice.DARK -> DsThemeMode.DARK
         ThemeChoice.HIGH_CONTRAST -> DsThemeMode.HIGH_CONTRAST
     }
-    val controller = remember(choice, fontSize) {
+    val controller = remember(choice, fontSize, language) {
         ThemeController(
             choice = choice,
             onChoiceChange = { choice = it },
             fontSize = fontSize,
-            onFontSizeChange = { fontSize = it }
+            onFontSizeChange = { fontSize = it },
+            language = language,
+            onLanguageChange = { language = it }
         )
     }
 
@@ -90,7 +99,9 @@ fun App() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        AppNavHost()
+                        AppEnvironment(locale = language.tag) {
+                            AppNavHost(navController = navController)
+                        }
                     }
                 }
             }

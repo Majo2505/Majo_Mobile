@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import majo.shared.generated.resources.*
 
-// Ajustes de apariencia: tema y tamano de texto.
+// Ajustes de apariencia: tema, tamano de texto e idioma.
 // Cada opcion ocupa una linea completa para que el texto nunca se corte.
 @Composable
 fun AppearanceSettings(modifier: Modifier = Modifier) {
@@ -56,6 +56,21 @@ fun AppearanceSettings(modifier: Modifier = Modifier) {
                     label = label,
                     selected = controller.fontSize == option,
                     onClick = { controller.onFontSizeChange(option) }
+                )
+            }
+        }
+
+        SettingsTitle(stringResource(Res.string.appearance_language))
+        Column(modifier = Modifier.selectableGroup()) {
+            listOf(
+                LanguageChoice.SYSTEM to stringResource(Res.string.language_system),
+                LanguageChoice.SPANISH to stringResource(Res.string.language_spanish),
+                LanguageChoice.ENGLISH to stringResource(Res.string.language_english)
+            ).forEach { (option, label) ->
+                OptionRow(
+                    label = label,
+                    selected = controller.language == option,
+                    onClick = { controller.onLanguageChange(option) }
                 )
             }
         }
