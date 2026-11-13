@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="exchange_back">&lt; Atr&#225;s</string>
+    <string name="exchange_title">D&#243;lar en directo</string>
+    <string name="common_back">&lt; Volver</string>
+    <string name="common_error">Error: %1$s</string>
+    <string name="common_search">Buscar</string>
+    <string name="common_email">Correo electr&#243;nico</string>
+    <string name="common_password">Contrase&#241;a</string>
+
+    <string name="movies_title">Pel&#237;culas</string>
+    <string name="movies_profile">Mi Perfil</string>
+    <string name="movies_promo">&#161;Promoci&#243;n especial activada desde Remote Config!</string>
+    <string name="movies_catalog">Ver Cat&#225;logo</string>
+    <string name="movies_dollar">Ver Cambio de D&#243;lar</string>
+    <string name="movies_feedback">Dar mi opini&#243;n</string>
+    <string name="survey_title">&#191;Nos ayudas a mejorar?</string>
+    <string name="survey_text">Cu&#233;ntanos si te gusta la app. Solo toma un minuto.</string>
+    <string name="survey_answer">Responder encuesta</string>
+    <string name="survey_later">M&#225;s tarde</string>
+
+    <string name="profile_github">Buscar en GitHub</string>
+    <string name="profile_logout">Cerrar Sesi&#243;n</string>
+
+    <string name="appearance_theme">Tema</string>
+    <string name="theme_system">Seguir al sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_high_contrast">Alto contraste</string>
+    <string name="appearance_font_size">Tama&#241;o de texto</string>
+    <string name="font_small">Peque&#241;o</string>
+    <string name="font_normal">Normal</string>
+    <string name="font_large">Grande</string>
+    <string name="font_extra_large">Muy grande</string>
+
+    <string name="login_welcome">Bienvenido</string>
+    <string name="login_subtitle">Inicia sesi&#243;n para continuar</string>
+    <string name="login_button">Iniciar Sesi&#243;n</string>
+    <string name="login_no_account">&#191;No tienes cuenta? Reg&#237;strate</string>
+    <string name="login_show_password">Mostrar contrase&#241;a</string>
+    <string name="login_hide_password">Ocultar contrase&#241;a</string>
+
+    <string name="signup_title">Crear Cuenta</string>
+    <string name="signup_name">Nombre</string>
+    <string name="signup_button">Registrarse</string>
+
+    <string name="github_user">Usuario de GitHub</string>
+
+
+    <string name="dollar_title">Cambio de D&#243;lar</string>
+    <string name="dollar_official_rate">Tasa oficial</string>
+    <string name="dollar_parallel_rate">Tasa paralela</string>
+    <string name="dollar_add">Agregar</string>
+    <string name="dollar_live_firebase">D&#243;lar en vivo (Firebase)</string>
+    <string name="dollar_official_value">Oficial: %1$s</string>
+    <string name="dollar_parallel_value">Paralelo: %1$s</string>
+    <string name="movies_notify">Probar notificaci&#243;n</string>
+    <string name="notify_title">Notificaci&#243;n local</string>
+    <string name="notify_text">Hola desde la app</string>
+    <string name="movies_earthquake">Ver EARTHQUAKES (examen)</string>
+    <string name="movies_github">Buscar usuarios GitHub</string>
+    <string name="profile_remote_config">Configuraci&#243;n remota</string>
+    <string name="common_loading">Cargando...</string>
+    <string name="common_no_data">sin datos</string>
+    <string name="common_unknown_error">Error desconocido</string>
+    <string name="common_yes">S&#237;</string>
+    <string name="common_no">No</string>
+    <string name="login_enter">Ingresar</string>
+    <string name="login_no_account_question">&#191;No tienes una cuenta?</string>
+    <string name="login_register">Reg&#237;strate</string>
+    <string name="login_fill_fields">Completa todos los campos</string>
+    <string name="login_teacher_note">Mgr., si est&#225; probando: para iniciar sesi&#243;n ponga cualquier car&#225;cter en correo y contrase&#241;a y funciona. Me faltan algunas cosas en la parte de autenticaci&#243;n.</string>
+    <string name="github_avatar">Foto de perfil</string>
+    <string name="github_email">Correo</string>
+    <string name="github_company">Empresa</string>
+    <string name="earthquake_title">Terremotos (USGS)</string>
+    <string name="earthquake_place">Ubicaci&#243;n: %1$s</string>
+    <string name="earthquake_magnitude">Magnitud: %1$s</string>
+    <string name="earthquake_time">Fecha y hora: %1$s</string>
+    <string name="earthquake_url">Enlace al evento: %1$s</string>
+    <string name="earthquake_coords">Lat: %1$s, Lon: %2$s, Profundidad: %3$s km</string>
+    <string name="dollar_realtime">Firebase (tiempo real): %1$s</string>
+    <string name="dollar_fill_both">Completa ambos valores</string>
+    <string name="dollar_firebase_error">Error en Firebase</string>
+    <string name="config_offline">sin conexi&#243;n</string>
+    <string name="config_message">Mensaje: %1$s</string>
+    <string name="config_max_items">M&#225;ximo de elementos: %1$s</string>
+    <string name="config_feature">Funci&#243;n habilitada: %1$s</string>
+    <string name="config_refresh">Refrescar</string>
+    <string name="movie_detail_title">Pel&#237;cula %1$s</string>
+    <string name="movie_detail_description">Descripci&#243;n de la pel&#237;cula %1$s</string>
+    <string name="appearance_language">Idioma</string>
+    <string name="language_system">Seguir al sistema</string>
+    <string name="language_spanish">Espa&#241;ol</string>
+    <string name="language_english">English</string>
+</resources>

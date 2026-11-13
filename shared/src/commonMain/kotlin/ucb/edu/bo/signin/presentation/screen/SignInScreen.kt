@@ -1,5 +1,7 @@
 ﻿package ucb.edu.bo.signin.presentation.screen
 
+import org.jetbrains.compose.resources.stringResource
+import majo.shared.generated.resources.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -63,13 +65,13 @@ fun SigninScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Iniciar Sesión",
+            text = stringResource(Res.string.login_button),
             style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(vertical = 32.dp)
         )
         Text(
-            text = "mgr si esta probando , el iniciar sesion ponga cuqlquier caracter en correo y contraseña y funciona, me falta algunas cosas en la parte de authentication ",
+            text = stringResource(Res.string.login_teacher_note),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.ExtraLight,
             modifier = Modifier.padding(vertical = 32.dp)
@@ -78,7 +80,7 @@ fun SigninScreen(
         OutlinedTextField(
             value = state.email,
             onValueChange = { viewModel.onEvent(SigninEvents.OnEmailChanged(it)) },
-            label = { Text("Correo Electrónico") },
+            label = { Text(stringResource(Res.string.common_email)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
@@ -86,7 +88,7 @@ fun SigninScreen(
         OutlinedTextField(
             value = state.password,
             onValueChange = { viewModel.onEvent(SigninEvents.OnPasswordChanged(it)) },
-            label = { Text("Contraseña") },
+            label = { Text(stringResource(Res.string.common_password)) },
             singleLine = true,
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
@@ -98,7 +100,7 @@ fun SigninScreen(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
             ) {
                 Text(
-                    text = "Error: ${state.error}",
+                    text = stringResource(Res.string.common_error, state.error.toString()),
                     color = MaterialTheme.colorScheme.onErrorContainer,
                     modifier = Modifier.padding(12.dp)
                 )
@@ -113,7 +115,7 @@ fun SigninScreen(
             if (state.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.padding(4.dp))
             } else {
-                Text("Ingresar")
+                Text(stringResource(Res.string.login_enter))
             }
         }
 
@@ -122,9 +124,9 @@ fun SigninScreen(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("¿No tienes una cuenta?")
+            Text(stringResource(Res.string.login_no_account_question))
             TextButton(onClick = { viewModel.onEvent(SigninEvents.OnSignUpClicked) }) {
-                Text("Regístrate")
+                Text(stringResource(Res.string.login_register))
             }
         }
     }

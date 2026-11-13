@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fc73c6c7bee12b221f97ea595ecac10b",
+    "identityHash": "b2189108dddc378764550d7fcdc90230",
     "entities": [
       {
-        "tableName": "exchangeRates",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `official_rate` TEXT, `parallel_rate` TEXT, `timestamp` INTEGER NOT NULL)",
+        "tableName": "dollars",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dollar_official` TEXT, `dollar_parallel` TEXT, `timestamp` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -15,13 +15,13 @@
             "notNull": true
           },
           {
-            "fieldPath": "officialRate",
-            "columnName": "official_rate",
+            "fieldPath": "dollarOfficial",
+            "columnName": "dollar_official",
             "affinity": "TEXT"
           },
           {
-            "fieldPath": "parallelRate",
-            "columnName": "parallel_rate",
+            "fieldPath": "dollarParallel",
+            "columnName": "dollar_parallel",
             "affinity": "TEXT"
           },
           {
@@ -41,7 +41,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fc73c6c7bee12b221f97ea595ecac10b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b2189108dddc378764550d7fcdc90230')"
     ]
   }
 }

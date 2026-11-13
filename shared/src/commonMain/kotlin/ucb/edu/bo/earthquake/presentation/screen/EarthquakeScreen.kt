@@ -1,5 +1,7 @@
 ﻿package ucb.edu.bo.earthquake.presentation.screen
 
+import org.jetbrains.compose.resources.stringResource
+import majo.shared.generated.resources.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -32,11 +34,11 @@ fun EarthquakeScreen(
             .padding(16.dp)
     ) {
         TextButton(onClick = { navController.popBackStack() }) {
-            Text("< Volver")
+            Text(stringResource(Res.string.common_back))
         }
 
         Text(
-            text = "Terremotos (USGS)",
+            text = stringResource(Res.string.earthquake_title),
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(vertical = 8.dp)
@@ -49,7 +51,7 @@ fun EarthquakeScreen(
                 }
                 state.error != null -> {
                     Text(
-                        text = "Error: ${state.error}",
+                        text = stringResource(Res.string.common_error, state.error.toString()),
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
@@ -64,11 +66,18 @@ fun EarthquakeScreen(
                                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                             ) {
                                 Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                                    Text(text = "Ubicación: ${eq.place}", fontWeight = FontWeight.Bold)
-                                    Text(text = "Magnitud: ${eq.magnitude}")
-                                    Text(text = "Fecha y Hora: ${eq.time} ")
-                                    Text(text = "Enlace al evento: ${eq.url} ")
-                                    Text(text = "Lat: ${eq.latitude}, Lon: ${eq.longitude}, Profundidad: ${eq.depth} km")
+                                    Text(text = stringResource(Res.string.earthquake_place, eq.place.toString()), fontWeight = FontWeight.Bold)
+                                    Text(text = stringResource(Res.string.earthquake_magnitude, eq.magnitude.toString()))
+                                    Text(text = stringResource(Res.string.earthquake_time, eq.time.toString()))
+                                    Text(text = stringResource(Res.string.earthquake_url, eq.url.toString()))
+                                    Text(
+                                        text = stringResource(
+                                            Res.string.earthquake_coords,
+                                            eq.latitude.toString(),
+                                            eq.longitude.toString(),
+                                            eq.depth.toString()
+                                        )
+                                    )
                                 }
                             }
                         }

@@ -27,5 +27,14 @@ sealed class NavRoute {
     @Serializable
     data object Profile : NavRoute()
 
+    @Serializable
+    data object Dollar : NavRoute()
+
+    @Serializable
+    data object Exchange : NavRoute()
+
+    @Serializable
+    data object Config : NavRoute()
+
 
 }

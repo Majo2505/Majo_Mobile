@@ -1,6 +1,7 @@
 ﻿package ucb.edu.bo.core.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -13,10 +14,12 @@ import ucb.edu.bo.earthquake.presentation.screen.EarthquakeScreen
 import ucb.edu.bo.moviedetail.presentation.screen.MovieDetailScreen
 import ucb.edu.bo.profile.presentation.screen.ProfileScreen
 import ucb.edu.bo.userinformation.presentation.screen.UserInformationScreen
+import ucb.edu.bo.dollar.presentation.screen.DollarScreen
+import ucb.edu.bo.dollar.presentation.screen.ExchangeScreen
+import ucb.edu.bo.remoteconfig.presentation.screen.ConfigScreen
 
 @Composable
-fun AppNavHost() {
-    val navController = rememberNavController()
+fun AppNavHost(navController: NavHostController = rememberNavController()) {
     NavHost(navController = navController, startDestination = NavRoute.Login) {
         composable<NavRoute.Login> {
             SigninScreen(navController = navController)
@@ -45,6 +48,15 @@ fun AppNavHost() {
         }
         composable<NavRoute.Earthquake> {
             EarthquakeScreen(navController = navController)
+        }
+        composable<NavRoute.Dollar> {
+            DollarScreen(navController = navController)
+        }
+        composable<NavRoute.Exchange> {
+            ExchangeScreen(navController = navController)
+        }
+        composable<NavRoute.Config> {
+            ConfigScreen(navController = navController)
         }
     }
 }
