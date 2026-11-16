@@ -200,6 +200,12 @@ fun MovieScreen(
         ) {
             Text(stringResource(Res.string.movies_dollar))
         }
+        TextButton(
+            onClick = { navController.navigate(NavRoute.Vision) },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(stringResource(Res.string.movies_vision))
+        }
         // SURVEYMONKEY: boton fijo para abrir la encuesta cuando el usuario quiera
         TextButton(
             onClick = {

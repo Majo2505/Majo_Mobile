@@ -13,6 +13,7 @@ import ucb.edu.bo.userinformation.presentation.states.UserInformationViewModel
 import ucb.edu.bo.dollar.presentation.state.DollarVM
 import ucb.edu.bo.dollar.presentation.state.ExchangeVM
 import ucb.edu.bo.remoteconfig.presentation.state.ConfigVM
+import ucb.edu.bo.vision.presentation.state.VisionVM
 
 val presentationModule = module {
     viewModel { SigninViewModel(get(), get()) }
@@ -26,4 +27,6 @@ val presentationModule = module {
     viewModel { DollarVM(get(), get(), get(), get()) }
     viewModel { ExchangeVM(get()) }
     viewModel { ConfigVM(get()) }
+    viewModel { VisionVM() }
+
 }

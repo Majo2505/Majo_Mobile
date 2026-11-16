@@ -17,6 +17,7 @@ import ucb.edu.bo.userinformation.presentation.screen.UserInformationScreen
 import ucb.edu.bo.dollar.presentation.screen.DollarScreen
 import ucb.edu.bo.dollar.presentation.screen.ExchangeScreen
 import ucb.edu.bo.remoteconfig.presentation.screen.ConfigScreen
+import ucb.edu.bo.vision.presentation.screen.VisionScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController = rememberNavController()) {
@@ -57,6 +58,9 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
         }
         composable<NavRoute.Config> {
             ConfigScreen(navController = navController)
+        }
+        composable<NavRoute.Vision> {
+            VisionScreen(navController = navController)
         }
     }
 }

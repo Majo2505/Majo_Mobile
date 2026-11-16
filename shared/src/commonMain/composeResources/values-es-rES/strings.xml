@@ -93,4 +93,13 @@
     <string name="language_system">Seguir al sistema</string>
     <string name="language_spanish">Espa&#241;ol</string>
     <string name="language_english">English</string>
+    <string name="movies_vision">Reconocer texto con la c&#225;mara</string>
+    <string name="vision_title">Visi&#243;n artificial</string>
+    <string name="vision_result">Texto reconocido</string>
+    <string name="vision_hint">Apunta la c&#225;mara a un texto...</string>
+    <string name="vision_pause">Pausar</string>
+    <string name="vision_resume">Continuar</string>
+    <string name="vision_clear">Limpiar</string>
+    <string name="vision_permission_needed">La app necesita la c&#225;mara para reconocer texto.</string>
+    <string name="vision_permission_button">Dar permiso</string>
 </resources>

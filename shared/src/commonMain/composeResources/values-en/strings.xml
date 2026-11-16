@@ -93,4 +93,13 @@
     <string name="language_system">Follow system</string>
     <string name="language_spanish">Espa&#241;ol</string>
     <string name="language_english">English</string>
+    <string name="movies_vision">Recognize text with the camera</string>
+    <string name="vision_title">Computer vision</string>
+    <string name="vision_result">Recognized text</string>
+    <string name="vision_hint">Point the camera at some text...</string>
+    <string name="vision_pause">Pause</string>
+    <string name="vision_resume">Resume</string>
+    <string name="vision_clear">Clear</string>
+    <string name="vision_permission_needed">The app needs the camera to recognize text.</string>
+    <string name="vision_permission_button">Grant permission</string>
 </resources>
