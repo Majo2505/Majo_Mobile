@@ -102,4 +102,10 @@
     <string name="vision_clear">Clear</string>
     <string name="vision_permission_needed">The app needs the camera to recognize text.</string>
     <string name="vision_permission_button">Grant permission</string>
+    <string name="vision_mode_camera">Camera</string>
+    <string name="vision_mode_gallery">Gallery</string>
+    <string name="vision_pick_image">Pick image</string>
+    <string name="vision_gallery_empty">You have not picked an image yet</string>
+    <string name="vision_gallery_hint">Pick a photo with text from your gallery...</string>
+    <string name="vision_no_text">No text was found in the image.</string>
 </resources>

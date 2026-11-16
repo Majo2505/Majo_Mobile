@@ -18,6 +18,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -25,13 +27,18 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import coil3.compose.AsyncImage
 import ucb.edu.bo.vision.presentation.camera.CameraTextScanner
+import ucb.edu.bo.vision.presentation.gallery.rememberGalleryTextRecognizer
 import ucb.edu.bo.vision.presentation.state.VisionEvents
+import ucb.edu.bo.vision.presentation.state.VisionMode
 import ucb.edu.bo.vision.presentation.state.VisionVM
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -41,6 +48,13 @@ fun VisionScreen(
     viewModel: VisionVM = koinViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
+
+    // Galeria: funcion que abre el selector de fotos; cada paso avisa al ViewModel
+    val openGallery = rememberGalleryTextRecognizer(
+        onImageSelected = { uri -> viewModel.onEvent(VisionEvents.OnImageSelected(uri)) },
+        onTextRecognized = { text -> viewModel.onEvent(VisionEvents.OnGalleryResult(text)) },
+        onError = { message -> viewModel.onEvent(VisionEvents.OnGalleryError(message)) }
+    )
 
     Column(
         modifier = Modifier
@@ -59,17 +73,53 @@ fun VisionScreen(
             fontWeight = FontWeight.Bold
         )
 
-        // Camara en vivo: cada texto que ML Kit encuentra se manda al ViewModel
+        // Selector de modo: Camara o Galeria
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            FilterChip(
+                selected = state.mode == VisionMode.CAMERA,
+                onClick = { viewModel.onEvent(VisionEvents.OnModeChange(VisionMode.CAMERA)) },
+                label = { Text(stringResource(Res.string.vision_mode_camera)) }
+            )
+            FilterChip(
+                selected = state.mode == VisionMode.GALLERY,
+                onClick = { viewModel.onEvent(VisionEvents.OnModeChange(VisionMode.GALLERY)) },
+                label = { Text(stringResource(Res.string.vision_mode_gallery)) }
+            )
+        }
+
+        // Zona de la imagen: camara en vivo o la foto elegida
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .clip(RoundedCornerShape(16.dp))
+                .clip(RoundedCornerShape(16.dp)),
+            contentAlignment = Alignment.Center
         ) {
-            CameraTextScanner(
-                onTextRecognized = { text -> viewModel.onEvent(VisionEvents.OnTextRecognized(text)) },
-                modifier = Modifier.fillMaxSize()
-            )
+            when (state.mode) {
+                VisionMode.CAMERA -> {
+                    // Camara en vivo: cada texto que ML Kit encuentra se manda al ViewModel
+                    CameraTextScanner(
+                        onTextRecognized = { text -> viewModel.onEvent(VisionEvents.OnTextRecognized(text)) },
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+                VisionMode.GALLERY -> {
+                    val image = state.selectedImage
+                    if (image == null) {
+                        Text(
+                            text = stringResource(Res.string.vision_gallery_empty),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    } else {
+                        AsyncImage(
+                            model = image,
+                            contentDescription = null,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
+                }
+            }
         }
 
         // Resultado: el ultimo texto reconocido
@@ -88,24 +138,55 @@ fun VisionScreen(
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
-                Text(
-                    text = state.recognizedText.ifBlank { stringResource(Res.string.vision_hint) },
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                when {
+                    state.isProcessing -> CircularProgressIndicator(modifier = Modifier.padding(8.dp))
+                    state.error != null -> Text(
+                        text = state.error ?: "",
+                        color = MaterialTheme.colorScheme.error
+                    )
+                    state.recognizedText.isNotBlank() -> Text(
+                        text = state.recognizedText,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    state.mode == VisionMode.GALLERY && state.selectedImage != null -> Text(
+                        text = stringResource(Res.string.vision_no_text),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    else -> Text(
+                        text = stringResource(
+                            if (state.mode == VisionMode.CAMERA) Res.string.vision_hint else Res.string.vision_gallery_hint
+                        ),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
         }
 
+        // Botones segun el modo
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Button(
-                onClick = { viewModel.onEvent(VisionEvents.OnTogglePause) },
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    stringResource(if (state.isPaused) Res.string.vision_resume else Res.string.vision_pause)
-                )
+            when (state.mode) {
+                VisionMode.CAMERA -> {
+                    Button(
+                        onClick = { viewModel.onEvent(VisionEvents.OnTogglePause) },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(
+                            stringResource(if (state.isPaused) Res.string.vision_resume else Res.string.vision_pause)
+                        )
+                    }
+                }
+                VisionMode.GALLERY -> {
+                    Button(
+                        onClick = { openGallery() },
+                        enabled = !state.isProcessing,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(stringResource(Res.string.vision_pick_image))
+                    }
+                }
             }
             OutlinedButton(
                 onClick = { viewModel.onEvent(VisionEvents.OnClear) },

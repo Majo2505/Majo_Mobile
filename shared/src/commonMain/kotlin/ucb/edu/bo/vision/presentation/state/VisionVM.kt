@@ -21,7 +21,36 @@ class VisionVM : ViewModel() {
                 _uiState.update { it.copy(isPaused = !it.isPaused) }
             }
             VisionEvents.OnClear -> {
-                _uiState.update { it.copy(recognizedText = "") }
+                _uiState.update { it.copy(recognizedText = "", selectedImage = null, error = null) }
+            }
+
+            // Al cambiar de modo se empieza de cero
+            is VisionEvents.OnModeChange -> {
+                _uiState.update {
+                    VisionState(mode = event.mode)
+                }
+            }
+            // Se eligio una foto: se muestra y se espera a ML Kit
+            is VisionEvents.OnImageSelected -> {
+                _uiState.update {
+                    it.copy(
+                        selectedImage = event.imageUri,
+                        recognizedText = "",
+                        isProcessing = true,
+                        error = null
+                    )
+                }
+            }
+            // ML Kit termino de leer la foto (puede venir vacio si no habia texto)
+            is VisionEvents.OnGalleryResult -> {
+                _uiState.update {
+                    it.copy(recognizedText = event.text, isProcessing = false)
+                }
+            }
+            is VisionEvents.OnGalleryError -> {
+                _uiState.update {
+                    it.copy(isProcessing = false, error = event.message)
+                }
             }
         }
     }
