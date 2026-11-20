@@ -86,8 +86,11 @@ actual fun CameraTextScanner(
         val analysisExecutor = Executors.newSingleThreadExecutor()
         val providerFuture = ProcessCameraProvider.getInstance(context)
         var cameraProvider: ProcessCameraProvider? = null
+        // Si se sale de la pantalla antes de que la camara arranque, no se debe conectar
+        var disposed = false
 
         providerFuture.addListener({
+            if (disposed) return@addListener
             val provider = providerFuture.get()
             cameraProvider = provider
 
@@ -107,6 +110,7 @@ actual fun CameraTextScanner(
 
         // Al salir de la pantalla se libera la camara, el hilo y el reconocedor
         onDispose {
+            disposed = true
             cameraProvider?.unbindAll()
             analysisExecutor.shutdown()
             recognizer.close()
