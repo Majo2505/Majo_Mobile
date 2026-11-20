@@ -36,6 +36,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,6 +77,10 @@ fun MovieScreen(
 
     // REMOTE CONFIG: valores remotos (mensaje de bienvenida y promo)
     var config by remember { mutableStateOf(AppConfig.DEFAULT) }
+
+    // Boton del menu que se toco por ultimo (queda amarillo). Se guarda para que siga
+    // marcado al volver de la otra pantalla. -1 = ninguno
+    var selectedMenu by rememberSaveable { mutableStateOf(-1) }
 
     // SURVEYMONKEY: invitacion a la encuesta
     var showSurveyPrompt by remember { mutableStateOf(false) }
@@ -200,10 +205,19 @@ fun MovieScreen(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            menuActions.chunked(2).forEach { rowActions ->
+            menuActions.withIndex().chunked(2).forEach { rowActions ->
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    rowActions.forEach { (label, action) ->
-                        MenuButton(text = label, onClick = action, modifier = Modifier.weight(1f))
+                    rowActions.forEach { (index, item) ->
+                        val (label, action) = item
+                        MenuButton(
+                            text = label,
+                            selected = index == selectedMenu,
+                            onClick = {
+                                selectedMenu = index
+                                action()
+                            },
+                            modifier = Modifier.weight(1f)
+                        )
                     }
                     // Si la fila queda con un solo boton, se rellena para que no ocupe todo el ancho
                     if (rowActions.size == 1) {
@@ -265,17 +279,19 @@ private val MenuBlue = Color(0xFF1E88E5)
 private val MenuYellow = Color(0xFFFFC107)
 private val MenuDarkText = Color(0xFF212121)
 
-// Boton del menu: azul normalmente y amarillo mientras se mantiene presionado
+// Boton del menu: azul normalmente y amarillo cuando se lo toca (y mientras se presiona)
 @Composable
 private fun MenuButton(
     text: String,
+    selected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-    val containerColor by animateColorAsState(if (isPressed) MenuYellow else MenuBlue)
-    val contentColor by animateColorAsState(if (isPressed) MenuDarkText else Color.White)
+    val isYellow = selected || isPressed
+    val containerColor by animateColorAsState(if (isYellow) MenuYellow else MenuBlue)
+    val contentColor by animateColorAsState(if (isYellow) MenuDarkText else Color.White)
 
     Button(
         onClick = onClick,
