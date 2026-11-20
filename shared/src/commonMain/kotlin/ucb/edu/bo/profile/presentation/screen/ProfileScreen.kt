@@ -6,7 +6,6 @@ import majo.shared.generated.resources.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.OutlinedButton
 import ucb.edu.bo.core.theme.AppearanceSettings
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -98,20 +97,6 @@ fun ProfileScreen(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
-                    }
-
-                    OutlinedButton(
-                        onClick = { navController.navigate(NavRoute.UserInfo) },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(stringResource(Res.string.profile_github))
-                    }
-
-                    OutlinedButton(
-                        onClick = { navController.navigate(NavRoute.Config) },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(stringResource(Res.string.profile_remote_config))
                     }
 
                     AppearanceSettings()

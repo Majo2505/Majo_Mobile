@@ -194,6 +194,8 @@ fun MovieScreen(
             stringResource(Res.string.movies_github) to { navController.navigate(NavRoute.UserInfo) },
             stringResource(Res.string.movies_dollar) to { navController.navigate(NavRoute.Dollar) },
             stringResource(Res.string.movies_vision) to { navController.navigate(NavRoute.Vision) },
+            // Configuracion remota (antes estaba en Perfil)
+            stringResource(Res.string.profile_remote_config) to { navController.navigate(NavRoute.Config) },
             // SURVEYMONKEY: boton fijo para abrir la encuesta cuando el usuario quiera
             stringResource(Res.string.movies_feedback) to {
                 analytics.logEvent("open_survey", mapOf("source" to "button"))
