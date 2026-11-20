@@ -24,17 +24,16 @@ actual fun rememberGalleryTextRecognizer(
     val currentOnText by rememberUpdatedState(onTextRecognized)
     val currentOnError by rememberUpdatedState(onError)
 
-    // 1. Reconocedor de ML Kit (el mismo que usa la camara); se cierra al salir de la pantalla
+    // 1. Reconocedor de ML Kit
     val recognizer = remember { TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS) }
     DisposableEffect(Unit) {
         onDispose { recognizer.close() }
     }
 
-    // 2. Photo Picker: selector de fotos del sistema. No necesita permiso de almacenamiento
+    // 2. Photo Picker: selector de fotos del sistema.
     val pickImage = rememberLauncherForActivityResult(
         ActivityResultContracts.PickVisualMedia()
     ) { uri ->
-        // Si el usuario cierra el selector sin elegir nada, uri llega null
         if (uri == null) return@rememberLauncherForActivityResult
         currentOnImageSelected(uri.toString())
 
