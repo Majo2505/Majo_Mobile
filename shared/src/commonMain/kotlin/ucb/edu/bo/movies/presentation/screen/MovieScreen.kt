@@ -3,18 +3,27 @@
 import org.jetbrains.compose.resources.stringResource
 import majo.shared.generated.resources.*
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -27,14 +36,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import edu.ucb.ds.components.buttons.PrimaryButton
 import kotlinx.coroutines.delay
 import ucb.edu.bo.analytics.AnalyticsTracker
 import ucb.edu.bo.core.navigation.NavRoute
@@ -65,6 +77,10 @@ fun MovieScreen(
 
     // REMOTE CONFIG: valores remotos (mensaje de bienvenida y promo)
     var config by remember { mutableStateOf(AppConfig.DEFAULT) }
+
+    // Boton del menu que se toco por ultimo (queda amarillo). Se guarda para que siga
+    // marcado al volver de la otra pantalla. -1 = ninguno
+    var selectedMenu by rememberSaveable { mutableStateOf(-1) }
 
     // SURVEYMONKEY: invitacion a la encuesta
     var showSurveyPrompt by remember { mutableStateOf(false) }
@@ -153,13 +169,6 @@ fun MovieScreen(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
         )
 
-        // E25-5: boton que dispara una notificacion local
-        PrimaryButton(
-            text = stringResource(Res.string.movies_notify),
-            onClick = { LocalNotifier.show(notifyTitle, notifyText) },
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)
-        )
-
         // Promo: solo se muestra si Remote Config lo activa
         if (config.mostrarPromo) {
             Card(
@@ -176,46 +185,51 @@ fun MovieScreen(
             }
         }
 
-        TextButton(
-            onClick = { navController.navigate(NavRoute.Earthquake) },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(stringResource(Res.string.movies_earthquake))
-        }
-        TextButton(
-            onClick = { navController.navigate(NavRoute.Catalog) },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(stringResource(Res.string.movies_catalog))
-        }
-        TextButton(
-            onClick = { navController.navigate(NavRoute.UserInfo) },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(stringResource(Res.string.movies_github))
-        }
-        TextButton(
-            onClick = { navController.navigate(NavRoute.Dollar) },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(stringResource(Res.string.movies_dollar))
-        }
-        TextButton(
-            onClick = { navController.navigate(NavRoute.Vision) },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(stringResource(Res.string.movies_vision))
-        }
-        // SURVEYMONKEY: boton fijo para abrir la encuesta cuando el usuario quiera
-        TextButton(
-            onClick = {
+        // Menu principal: cada accion es un boton y se muestran en 2 columnas
+        val menuActions: List<Pair<String, () -> Unit>> = listOf(
+            // E25-5: notificacion local
+            stringResource(Res.string.movies_notify) to { LocalNotifier.show(notifyTitle, notifyText) },
+            stringResource(Res.string.movies_earthquake) to { navController.navigate(NavRoute.Earthquake) },
+            stringResource(Res.string.movies_catalog) to { navController.navigate(NavRoute.Catalog) },
+            stringResource(Res.string.movies_github) to { navController.navigate(NavRoute.UserInfo) },
+            stringResource(Res.string.movies_dollar) to { navController.navigate(NavRoute.Dollar) },
+            stringResource(Res.string.movies_vision) to { navController.navigate(NavRoute.Vision) },
+            // Configuracion remota (antes estaba en Perfil)
+            stringResource(Res.string.profile_remote_config) to { navController.navigate(NavRoute.Config) },
+            // SURVEYMONKEY: boton fijo para abrir la encuesta cuando el usuario quiera
+            stringResource(Res.string.movies_feedback) to {
                 analytics.logEvent("open_survey", mapOf("source" to "button"))
                 uriHandler.openUri(SurveyConfig.SURVEY_URL)
-            },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
+            }
+        )
+
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Text(stringResource(Res.string.movies_feedback))
+            menuActions.withIndex().chunked(2).forEach { rowActions ->
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    rowActions.forEach { (index, item) ->
+                        val (label, action) = item
+                        MenuButton(
+                            text = label,
+                            selected = index == selectedMenu,
+                            onClick = {
+                                selectedMenu = index
+                                action()
+                            },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                    // Si la fila queda con un solo boton, se rellena para que no ocupe todo el ancho
+                    if (rowActions.size == 1) {
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                }
+            }
         }
+
+        Spacer(modifier = Modifier.height(4.dp))
 
         Box(modifier = Modifier.fillMaxSize()) {
             when {
@@ -260,5 +274,45 @@ fun MovieScreen(
                 }
             }
         }
+    }
+}
+
+private val MenuBlue = Color(0xFF1E88E5)
+private val MenuYellow = Color(0xFFFFC107)
+private val MenuDarkText = Color(0xFF212121)
+
+// Boton del menu: azul normalmente y amarillo cuando se lo toca (y mientras se presiona)
+@Composable
+private fun MenuButton(
+    text: String,
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val isYellow = selected || isPressed
+    val containerColor by animateColorAsState(if (isYellow) MenuYellow else MenuBlue)
+    val contentColor by animateColorAsState(if (isYellow) MenuDarkText else Color.White)
+
+    Button(
+        onClick = onClick,
+        interactionSource = interactionSource,
+        shape = RoundedCornerShape(14.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = containerColor,
+            contentColor = contentColor
+        ),
+        elevation = ButtonDefaults.buttonElevation(defaultElevation = 3.dp, pressedElevation = 0.dp),
+        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp),
+        modifier = modifier.height(64.dp)
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelLarge,
+            textAlign = TextAlign.Center,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
