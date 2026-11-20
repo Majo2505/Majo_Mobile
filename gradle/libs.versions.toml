@@ -29,6 +29,10 @@ firebaseConfig = "2.7.0"
 firebaseFirestore = "2.7.0"
 wire = "7.1.0"
 workRuntimeKtx = "2.11.0"
+camerax = "1.6.2"
+textRecognition = "16.0.1"
+
+
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -79,6 +83,13 @@ firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = 
 wire-runtime = { module = "com.squareup.wire:wire-runtime", version.ref = "wire" }
 wire-grpc-client = { module = "com.squareup.wire:wire-grpc-client", version.ref = "wire" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
+
+# Vision artificial: CameraX (camara) + ML Kit (reconocimiento de texto)
+androidx-camera-core = { module = "androidx.camera:camera-core", version.ref = "camerax" }
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camerax" }
+androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "camerax" }
+androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "camerax" }
+mlkit-text-recognition = { module = "com.google.mlkit:text-recognition", version.ref = "textRecognition" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

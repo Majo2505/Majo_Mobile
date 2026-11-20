@@ -37,4 +37,7 @@ sealed class NavRoute {
     data object Config : NavRoute()
 
 
+    @Serializable
+    data object Vision : NavRoute()
+
 }

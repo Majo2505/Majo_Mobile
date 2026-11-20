@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <resources>
     <string name="exchange_back">&lt; Volver</string>
     <string name="exchange_title">D&#243;lar en vivo</string>
@@ -93,4 +94,19 @@
     <string name="language_system">Seguir al sistema</string>
     <string name="language_spanish">Espa&#241;ol</string>
     <string name="language_english">English</string>
+    <string name="movies_vision">Reconocer texto con la c&#225;mara</string>
+    <string name="vision_title">Visi&#243;n artificial</string>
+    <string name="vision_result">Texto reconocido</string>
+    <string name="vision_hint">Apunta la c&#225;mara a un texto...</string>
+    <string name="vision_pause">Pausar</string>
+    <string name="vision_resume">Continuar</string>
+    <string name="vision_clear">Limpiar</string>
+    <string name="vision_permission_needed">La app necesita la c&#225;mara para reconocer texto.</string>
+    <string name="vision_permission_button">Dar permiso</string>
+    <string name="vision_mode_camera">C&#225;mara</string>
+    <string name="vision_mode_gallery">Galer&#237;a</string>
+    <string name="vision_pick_image">Elegir imagen</string>
+    <string name="vision_gallery_empty">Todav&#237;a no elegiste una imagen</string>
+    <string name="vision_gallery_hint">Elige una foto con texto de tu galer&#237;a...</string>
+    <string name="vision_no_text">No se encontr&#243; texto en la imagen.</string>
 </resources>
